@@ -1,0 +1,62 @@
+services:
+  egress-proxy:
+    build:
+      context: ./egress-proxy
+    depends_on:
+      - ntfy-server
+    networks:
+      - secure-dev-net
+      - alert-net
+      - egress-net
+    volumes:
+      - ./egress-proxy/squid.conf:/etc/squid/squid.conf:ro
+    restart: unless-stopped
+
+  ntfy-server:
+    image: binwiederhier/ntfy:latest
+    command: serve
+    ports:
+      - "8080:80"
+    volumes:
+      - ntfy-cache:/var/cache/ntfy
+    networks:
+      - alert-net
+    restart: unless-stopped
+
+  dev-env:
+    build:
+      context: ./dev-env
+    command: sleep infinity
+    depends_on:
+      - egress-proxy
+    environment:
+      http_proxy: http://egress-proxy:3128
+      https_proxy: http://egress-proxy:3128
+      HTTP_PROXY: http://egress-proxy:3128
+      HTTPS_PROXY: http://egress-proxy:3128
+      GH_TOKEN: ${GH_TOKEN:-}
+    init: true
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    cap_add:
+      - NET_BIND_SERVICE
+    tmpfs:
+      - /root:rw,exec,nosuid,size=2048m
+    volumes:
+      - ..:/workspace:cached
+    working_dir: /workspace
+    networks:
+      - secure-dev-net
+
+networks:
+  secure-dev-net:
+    internal: true
+  alert-net:
+    internal: true
+  egress-net:
+    driver: bridge
+
+volumes:
+  ntfy-cache:
