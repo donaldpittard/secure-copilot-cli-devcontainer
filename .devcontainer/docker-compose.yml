@@ -45,7 +45,7 @@ services:
     tmpfs:
       - /root:rw,exec,nosuid,size=2048m
     volumes:
-      - ../agent-workspace:/workspace:cached
+      - ${REPO_DIR:-.}:/workspace:cached
     working_dir: /workspace
     networks:
       - secure-dev-net

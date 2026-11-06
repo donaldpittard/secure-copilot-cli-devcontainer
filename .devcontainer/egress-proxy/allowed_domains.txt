@@ -1,0 +1,11 @@
+.github.com
+.githubcopilot.com
+api.github.com
+copilot-proxy.githubusercontent.com
+.nuget.org
+.api.nuget.org
+.microsoft.com
+registry.npmjs.org
+marketplace.visualstudio.com
+pkgs.dev.azure.com
+packagefeedproxy.microsoft.io
