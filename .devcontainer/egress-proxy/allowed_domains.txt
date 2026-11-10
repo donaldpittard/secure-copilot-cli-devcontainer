@@ -1,9 +1,7 @@
 .github.com
 .githubcopilot.com
-api.github.com
-copilot-proxy.githubusercontent.com
+.githubusercontent.com
 .nuget.org
-.api.nuget.org
 .microsoft.com
 registry.npmjs.org
 marketplace.visualstudio.com

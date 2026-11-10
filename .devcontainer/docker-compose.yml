@@ -10,6 +10,7 @@ services:
       - egress-net
     volumes:
       - ./egress-proxy/squid.conf:/etc/squid/squid.conf:ro
+      - ./egress-proxy/allowed_domains.txt:/etc/squid/allowed_domains.txt
     restart: unless-stopped
 
   ntfy-server:
